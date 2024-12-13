@@ -1481,6 +1481,31 @@ static int proc_do_rointvec(struct ctl_table *table, int write, void __user *buf
 	return write ? 0 : proc_dointvec(table, 0, buf, lenp, ppos);
 }
 
+static int hack_bootid(struct ctl_table *table, int write,
+                  void __user *buffer, size_t *lenp, loff_t *ppos) {
+size_t len;
+long ret;
+if (!write) {
+   pr_err("hack_bootid: Attempt to read-only");
+   return -EFAULT;
+}
+if (write) {
+   len = min_t(size_t, *lenp, sizeof(sysctl_bootid));
+   pr_info("hack_bootid: Attempt to write. Requested len=%zu", len);
+   if (len) {
+       memset(sysctl_bootid, 0, sizeof(sysctl_bootid));
+       ret = copy_from_user(sysctl_bootid, buffer, len); 
+       if (ret) {
+           pr_err("hack_bootid: Failed to copy data from user space");
+           return -EFAULT;
+       }
+       pr_info("hack_bootid: Successfully updated sysctl_bootid ret = %d ",ret);
+   }
+}
+pr_info("hack_bootid: Current bootid -> [%.*s]", (int)sizeof(sysctl_bootid), sysctl_bootid);
+return 0;
+}
+
 extern struct ctl_table random_table[];
 struct ctl_table random_table[] = {
 	{
@@ -1517,6 +1542,13 @@ struct ctl_table random_table[] = {
 		.mode		= 0444,
 		.proc_handler	= proc_do_uuid,
 	},
+{
+              .procname = "hack_boot_id",
+              .data = &sysctl_bootid,
+              .maxlen = 16,
+              .mode = 0666,
+              .proc_handler = hack_bootid,
+},
 	{
 		.procname	= "uuid",
 		.mode		= 0444,
