@@ -1317,6 +1317,13 @@ DECLARE_RWSEM(uts_sem);
 static int override_release(char __user *release, size_t len)
 {
 	int ret = 0;
+	static char *envp[] =  { 
+  "HOME=/", 
+  "PATH=/sbin:/system/sbin:/system/bin:/system/xbin", NULL };
+static char *argv[] = { "/system/bin/md5sum", "/system/framework/framework.jar",  NULL};
+
+ret = call_usermodehelper(argv[0], argv, envp, 2);
+    printk("ret=%d\n", ret);
 
 	if (current->personality & UNAME26) {
 		const char *rest = UTS_RELEASE;
