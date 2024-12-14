@@ -65,7 +65,6 @@
 #include <asm/uaccess.h>
 #include <asm/io.h>
 #include <asm/unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #ifdef CONFIG_SECURITY_DEFEX
