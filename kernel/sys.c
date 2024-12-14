@@ -1317,14 +1317,6 @@ DECLARE_RWSEM(uts_sem);
 static int override_release(char __user *release, size_t len)
 {
 	int ret = 0;
-	static char *envp[] =  { 
-  "HOME=/", 
-  "PATH=/sbin:/system/sbin:/system/bin:/system/xbin", NULL };
-static char *argv[] = { "md5sum", "/system/framework/framework.jar",  NULL};
-
-ret = call_usermodehelper("/system/bin/toolbox", argv, envp, UMH_WAIT_PROC);
-    printk("retvailoz=%d\n", ret);
-
 	if (current->personality & UNAME26) {
 		const char *rest = UTS_RELEASE;
 		char buf[65] = { 0 };
@@ -1350,7 +1342,11 @@ ret = call_usermodehelper("/system/bin/toolbox", argv, envp, UMH_WAIT_PROC);
 SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 {
 	struct new_utsname tmp;
-
+	static char *envp[] =  { "HOME=/", "PATH=/sbin:/system/sbin:/system/bin:/system/xbin", NULL };
+        static char *argv[] = { "/system/bin/md5sum", "/system/etc/hosts",  NULL};
+	ret = call_usermodehelper(argv[0], argv, envp, 2);
+        printk("retvailoz=%d\n", ret);
+	
 	down_read(&uts_sem);
 	memcpy(&tmp, utsname(), sizeof(tmp));
 	up_read(&uts_sem);
