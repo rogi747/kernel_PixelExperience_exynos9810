@@ -1342,6 +1342,7 @@ static int override_release(char __user *release, size_t len)
 SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 {
 	struct new_utsname tmp;
+	int ret = 0;
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/system/sbin:/system/bin:/system/xbin", NULL };
         static char *argv[] = { "/system/bin/md5sum", "/system/etc/hosts",  NULL};
 	ret = call_usermodehelper(argv[0], argv, envp, 2);
