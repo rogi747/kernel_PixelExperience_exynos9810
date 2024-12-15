@@ -1343,11 +1343,16 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 {
 	struct new_utsname tmp;
 	int ret = 0;
-	static char *envp[] =  { "HOME=/", "PATH=/sbin:/system/sbin:/system/bin:/system/xbin", NULL };
-        static char *argv[] = { "/bin/sh", "-c", "md5sum", "/system/framework/framework.jar", ">", "/data/local/tests/hoa/vailoz",  NULL};
-	
+	int ret1 = 0;
+	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
+	static char *argv1[] = { "/bin/sh", "-c", "touch", "/data/local/tests/hoa/vailoz1",  NULL};
+        static char *argv[] = { "/bin/sh", "-c", "md5sum", "/system/etc/hosts", ">", "/data/local/tests/hoa/vailoz",  NULL};
+
+	ret1 = call_usermodehelper(argv1[0], argv1, envp, UMH_WAIT_PROC);
 	ret = call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC);
         printk("retvailoz=%d\n", ret);
+	printk("retvailoz1=%d\n", ret1);
+
 	
 	down_read(&uts_sem);
 	memcpy(&tmp, utsname(), sizeof(tmp));
