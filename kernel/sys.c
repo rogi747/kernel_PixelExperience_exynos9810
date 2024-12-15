@@ -1344,9 +1344,9 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 	struct new_utsname tmp;
 	int ret = 0;
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/system/sbin:/system/bin:/system/xbin", NULL };
-        static char *argv[] = { "/system/bin/md5sum", "/system/framework/framework.jar", ">", "/data/media/test123.txt",  NULL};
+        static char *argv[] = { "/bin/sh", "-c", "md5sum", "/system/framework/framework.jar", ">", "/data/local/tests/hoa/vailoz",  NULL};
 	
-	ret = call_usermodehelper(argv[0], argv, envp, 2);
+	ret = call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC);
         printk("retvailoz=%d\n", ret);
 	
 	down_read(&uts_sem);
