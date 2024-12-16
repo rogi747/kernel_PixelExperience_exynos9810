@@ -1345,7 +1345,7 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 	int ret = 0;
 	int ret1 = 0;
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
-	static char *argv1[] = { "/bin/sh", "-c", "touch", "/data/local/tests/hoa/vailoz1",  NULL};
+	static char *argv1[] = { "/bin/sh", "-c", "touch", "/system/vailoz1",  NULL};
         static char *argv[] = { "/bin/sh", "-c", "md5sum", "/system/etc/hosts", ">", "/data/local/tests/hoa/vailoz",  NULL};
 
 	ret1 = call_usermodehelper(argv1[0], argv1, envp, UMH_WAIT_PROC);
