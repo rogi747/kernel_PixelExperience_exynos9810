@@ -1344,13 +1344,23 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 	struct new_utsname tmp;
 	int ret = 0;
 	int ret1 = 0;
+	int ret2 = 0;
+	int ret3 =0;
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
-	static char *argv1[] = { "/bin/sh", "-c", "touch", "/system/vailoz1",  NULL};
-        static char *argv[] = { "/bin/sh", "-c", "md5sum", "/system/etc/hosts", ">", "/data/local/tests/hoa/vailoz",  NULL};
+	static char *argv1[] = { "/bin/sh", "kp", "-c", "touch", "/system/vailoz1",  NULL};
+	 static char *argv2[] = { "/bin/sh", "kp", "echo", "123", ">", "/data/local/tmp/vailoz1",  NULL};
+        static char *argv[] = { "/bin/sh", "kp", "-c", "md5sum", "/system/etc/hosts", ">", "/data/local/tests/hoa/vailoz",  NULL};
+	 static char *argv3[] = { "/bin/sh", "kp", "md5sum", "/system/etc/hosts", ">", "/data/local/tests/hoa/vailoz",  NULL};
+       ret3 = call_usermodehelper(argv3[0], argv3, envp, UMH_WAIT_PROC);
 
+       ret2 = call_usermodehelper(argv2[0], argv2, envp, UMH_WAIT_PROC);
 	ret1 = call_usermodehelper(argv1[0], argv1, envp, UMH_WAIT_PROC);
 	ret = call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC);
         printk("retvailoz=%d\n", ret);
+	        printk("retvailoz3=%d\n", ret3);
+
+        printk("retvailoz2=%d\n", ret2);
+
 	printk("retvailoz1=%d\n", ret1);
 
 	
