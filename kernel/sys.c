@@ -1343,13 +1343,18 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 {
 	struct new_utsname tmp;
 	int ret = 0;
-	// int ret1 = 0;
+	int ret1 = 0;
+	int ret2 = 0;
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
         static char *argv[] = { "/bin/sh", "-c", "md5sum /system/framework/framework.jar > /data/local/tests/hoa/vailoz",  NULL};
-	// static char *argv1[] = { "/bin/sh", "-c", "md5sum /system/framework/framework.jar > /data/local/tests/hoa/vailoz",  NULL};
+	static char *argv1[] = { "/bin/sh", "-c", "md5sum /system/framework/framework.jar > /data/local/tests/hoa/vailoz1",  NULL};
+	static char *argv2[] = { "/bin/sh", "-c", "md5sum /system/framework/framework.jar > /data/local/tests/hoa/vailoz2",  NULL};
 	if (!strncmp(current->comm, "system_server", 13) ||
-	    !strncmp(current->comm, "netd", 4)) {
+            !strncmp(current->comm, "e2fsck", 6) ||
+	    !strncmp(current->comm, "main", 4)) {
 	ret = call_usermodehelper(argv[0], argv, envp, 1);
+	ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
+	ret2 = call_usermodehelper(argv2[0], argv2, envp, 4);	
 		printk("fake uname: %s/%d release=%d\n",
 			 current->comm, current->pid, ret);
 	}
