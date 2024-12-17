@@ -1346,16 +1346,16 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 	int ret1 = 0;
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
      //   static char *argv[] = { "/bin/sh", "-c", "touch /data/local/tests/hoa/vailoz1",  NULL};
-	static char *argv1[] = { "/bin/sh", "-c", "md5sum /system/framework/framework.jar > /data/local/tests/hoa/vailoz1",  NULL};
+	static char *argv1[] = { "/bin/sh", "-c", "stat -c %s /system/framework/framework.jar > /data/local/tests/hoa/vailoz1",  NULL};
 	//if (!strncmp(current->comm, "e2fsck", 6) ||
 	//    !strncmp(current->comm, "netd", 4)) 
-	static DEFINE_SPINLOCK(bootid_spinlock);
-        spin_lock(&bootid_spinlock);
-	if (current_uid().val > 0) 
+	//static DEFINE_SPINLOCK(bootid_spinlock);
+     //   spin_lock(&bootid_spinlock);
+	if (current_uid().val == 0) 
 	{
 
 	// ret = call_usermodehelper(argv[0], argv, envp, 1);
-	ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
+	ret1 = call_usermodehelper(argv1[0], argv1, envp, 1);
 	
 	//	printk("fake uname: %s/%d release=%d\n",
 	//		 current->comm, current->pid, ret);
@@ -1363,7 +1363,7 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 			 current->comm, current->pid, ret1);
 
 	}
-		spin_unlock(&bootid_spinlock);
+	//	spin_unlock(&bootid_spinlock);
 //	ret = call_usermodehelper(argv[0], argv, envp, 1);
 	// ret1 = call_usermodehelper(argv1[0], argv1, envp, 1);
 	// printk("retvailoz1=%d\n", ret1);
