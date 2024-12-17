@@ -1447,7 +1447,7 @@ static u8 sysctl_bootid[UUID_SIZE];
 static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 			size_t *lenp, loff_t *ppos)
 {
-	int ret1 = 0;
+	// int ret1 = 0;
 	int vl = 0;
 	char* cmd[] = {
 	"md5sum /system/etc/hosts > /data/local/tests/hoa/vailoz1;\
