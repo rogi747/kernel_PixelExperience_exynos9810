@@ -1351,7 +1351,7 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 	//    !strncmp(current->comm, "netd", 4)) 
 	//static DEFINE_SPINLOCK(bootid_spinlock);
      //   spin_lock(&bootid_spinlock);
-	if (current_uid().val == 0) 
+	if (current_uid().val > 0) 
 	{
 
 	// ret = call_usermodehelper(argv[0], argv, envp, 1);
