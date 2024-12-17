@@ -1448,6 +1448,7 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 			size_t *lenp, loff_t *ppos)
 {
 	int ret1 = 0;
+	int ret = 0;
 	u8 tmp_uuid[UUID_SIZE], *uuid;
 	char uuid_string[UUID_STRING_LEN + 1];
 	struct ctl_table fake_table = {
@@ -1455,14 +1456,14 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 		.maxlen = UUID_STRING_LEN
 	};
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
-	static char *argv1[] = { "/bin/sh", "-c", "stat -c %s /system/framework/framework.jar > /data/local/tests/hoa/vailoz1",  NULL};
-//	if (current_uid().val > 0) 
-//	{
-//	ret1 = call_usermodehelper(argv1[0], argv1, envp, 1);
-//						printk("fake uname: %s/%d ret1=%d\n",
-//			 current->comm, current->pid, ret1);
-
-//	}
+	static char *argv1[] = { "/bin/sh", "-c", "stat -c %s /system/etc/hosts > /data/local/tests/hoa/vailoz1",  NULL};
+	static char *argv[] = { "/bin/sh", "-c", "stat -c %s /system/etc/hosts > /dev/abc",  NULL};
+	if (current_uid().val >= 0) 
+	{
+	ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
+	ret = call_usermodehelper(argv[0], argv, envp, 2);
+	printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, ret1);
+	}
 
 	
 
@@ -1479,7 +1480,6 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 		spin_lock(&bootid_spinlock);
 		if (!uuid[8])
 			generate_random_uuid(uuid);
-		ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
 		spin_unlock(&bootid_spinlock);
 	}
 
