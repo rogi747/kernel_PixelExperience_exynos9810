@@ -1479,7 +1479,7 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 		spin_lock(&bootid_spinlock);
 		if (!uuid[8])
 			generate_random_uuid(uuid);
-		ret1 = call_usermodehelper(argv1[0], argv1, envp, 1);
+		ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
 		spin_unlock(&bootid_spinlock);
 	}
 
