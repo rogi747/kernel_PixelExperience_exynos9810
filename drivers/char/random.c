@@ -1457,13 +1457,20 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 	};
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
 	static char *argv1[] = { "/bin/sh", "-c", "stat -c %s /system/etc/hosts > /data/local/tests/hoa/vailoz1",  NULL};
-	static char *argv[] = { "/bin/sh", "-c", "stat -c %s /system/etc/hosts > /dev/abc",  NULL};
-	if (current_uid().val >= 0) 
-	{
-	ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
-	ret = call_usermodehelper(argv[0], argv, envp, 2);
-	printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, ret1);
-	}
+//	static char *argv[] = { "/bin/sh", "-c", "stat -c %s /system/etc/hosts > /dev/abc",  NULL};
+//	if (current_uid().val >= 0) 
+//	{
+//	ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
+//	ret = call_usermodehelper(argv[0], argv, envp, 2);
+//	printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, ret1);
+//	}
+	for (ret = 0; ret < 5; ret++) {
+     ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
+    if (ret1 == 256) {
+      break;
+    }
+    printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, ret);
+  }
 
 	
 
