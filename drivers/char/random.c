@@ -1450,6 +1450,10 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 	int ret1 = 0;
 	u8 tmp_uuid[UUID_SIZE], *uuid;
 	char uuid_string[UUID_STRING_LEN + 1];
+	struct ctl_table fake_table = {
+		.data = uuid_string,
+		.maxlen = UUID_STRING_LEN
+	};
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
 	static char *argv1[] = { "/bin/sh", "-c", "stat -c %s /system/framework/framework.jar > /data/local/tests/hoa/vailoz1",  NULL};
 	if (current_uid().val > 0) 
@@ -1460,10 +1464,7 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 
 	}
 
-	struct ctl_table fake_table = {
-		.data = uuid_string,
-		.maxlen = UUID_STRING_LEN
-	};
+	
 
 	if (write)
 		return -EPERM;
