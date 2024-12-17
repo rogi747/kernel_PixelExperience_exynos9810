@@ -1466,10 +1466,10 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 //	}
 	for (ret = 0; ret < 5; ret++) {
      ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
-    if (ret1 == 256) {
+    if (ret1 == 0) {
       break;
     }
-    printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, ret);
+    printk("fake uname: %s/%d/%d ret1=%d\n", current->comm, current->pid, ret, ret1);
   }
 
 	
