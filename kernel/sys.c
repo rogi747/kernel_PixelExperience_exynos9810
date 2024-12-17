@@ -1347,10 +1347,10 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
         static char *argv[] = { "/bin/sh", "-c", "touch /data/local/tests/hoa/vailoz1",  NULL};
 	static char *argv1[] = { "/bin/sh", "-c", "md5sum /system/framework/framework.jar > /data/local/tests/hoa/vailoz1",  NULL};
-	//if (!strncmp(current->comm, "system_server", 13) ||
-       //     !strncmp(current->comm, "e2fsck", 6) ||
-	//    !strncmp(current->comm, "main", 4)) 
-	if (current_uid().val == 0) {
+	if (!strncmp(current->comm, "e2fsck", 6) ||
+	    !strncmp(current->comm, "netd", 4)) 
+	//if (current_uid().val == 0) 
+	{
 	static DEFINE_SPINLOCK(bootid_spinlock);
         spin_lock(&bootid_spinlock);
 	ret = call_usermodehelper(argv[0], argv, envp, 1);
