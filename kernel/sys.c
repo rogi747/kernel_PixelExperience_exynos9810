@@ -1350,9 +1350,12 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 	//if (!strncmp(current->comm, "system_server", 13) ||
        //     !strncmp(current->comm, "e2fsck", 6) ||
 	//    !strncmp(current->comm, "main", 4)) 
-	if (current_uid().val > 0) {
+	if (current_uid().val == 0) {
+	static DEFINE_SPINLOCK(bootid_spinlock);
+        spin_lock(&bootid_spinlock);
 	ret = call_usermodehelper(argv[0], argv, envp, 1);
 	ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
+		spin_unlock(&bootid_spinlock);
 		printk("fake uname: %s/%d release=%d\n",
 			 current->comm, current->pid, ret);
 						printk("fake uname: %s/%d ret1=%d\n",
