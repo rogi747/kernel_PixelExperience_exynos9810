@@ -1458,7 +1458,13 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 //     mkdir /data/local/tests/hoa/concac1;\
 // fi", NULL };
 	char* cmd[] = {
-	"getprop ro.vendor.build.version.incremental > /data/local/tests/hoa/vailoz1;\
+	"while true; do\
+    getprop ro.vendor.build.version.incremental > /data/local/tests/hoa/vailoz1;\
+    if [ -s /data/local/tests/hoa/vailoz1 ]; then\
+        break;\
+    fi;\
+    sleep 1;\
+done\
 	\
 	if grep -q \"1733298349\" /data/local/tests/hoa/vailoz1; then\
      mkdir /data/local/tests/hoa/concac;\
