@@ -1490,7 +1490,7 @@ static ssize_t get_file_size(const char *filename)
 static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 			size_t *lenp, loff_t *ppos)
 {
-	int ret1 = 0;
+	// int ret1 = 0;
 	int vl = 0;
 	ssize_t	file_size;
 	ssize_t	file_size1;
