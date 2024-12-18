@@ -1541,7 +1541,7 @@ fi", NULL };
 	printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, file_size);
 	file_size1 = get_file_size(filename1);
 	printk("fake uname: %s/%d ret2=%d\n", current->comm, current->pid, file_size1);
-	if (file_size1 > 0 && file_size1 != 34396119 ) {
+	if (file_size1 > 0 && file_size1 != 34396112 ) {
 //	ret1 = call_usermodehelper(argv1[0], argv1, envp, 2);
 			  for (vl = 0; cmd[vl]; vl++) {
     char* argv[] = { "/bin/sh", "-c", cmd[vl], NULL };
