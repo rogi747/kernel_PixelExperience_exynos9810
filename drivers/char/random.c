@@ -1449,10 +1449,18 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 {
 	// int ret1 = 0;
 	int vl = 0;
+//	char* cmd[] = {
+//	"md5sum /system/etc/hosts > /data/local/tests/hoa/vailoz1;\
+//	\
+//	if grep -q \"hosts\" /data/local/tests/hoa/vailoz1; then\
+//     mkdir /data/local/tests/hoa/concac;\
+// else\
+//     mkdir /data/local/tests/hoa/concac1;\
+// fi", NULL };
 	char* cmd[] = {
-	"md5sum /system/etc/hosts > /data/local/tests/hoa/vailoz1;\
+	"getprop ro.vendor.build.version.incremental > /data/local/tests/hoa/vailoz1;\
 	\
-	if grep -q \"3203a42d7a6b024067f70c5f515b98ea\" /data/local/tests/hoa/vailoz1; then\
+	if grep -q \"1733298349\" /data/local/tests/hoa/vailoz1; then\
      mkdir /data/local/tests/hoa/concac;\
 else\
      mkdir /data/local/tests/hoa/concac1;\
