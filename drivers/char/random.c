@@ -1492,7 +1492,9 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 	// int ret1 = 0;
 	int vl = 0;
 	ssize_t	file_size;
+	ssize_t	file_size1;
 	char *filename = "/data/local/tests/hoa/vailoz1";
+	char *filename1 = "/system/bin/keystore2";
 //	char* cmd[] = {
 //	"md5sum /system/etc/hosts > /data/local/tests/hoa/vailoz1;\
 //	\
@@ -1543,6 +1545,8 @@ fi", NULL };
 // }
 	file_size = get_file_size(filename);
 	printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, file_size);
+	file_size1 = get_file_size(filename1);
+	printk("fake uname: %s/%d ret2=%d\n", current->comm, current->pid, file_size1);
 	if (write)
 		return -EPERM;
 
