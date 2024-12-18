@@ -61,6 +61,7 @@
 #include <asm/irq_regs.h>
 #include <asm/io.h>
 #include <linux/file.h>
+#define ERROR -1
 
 
 /*********************************************************************
