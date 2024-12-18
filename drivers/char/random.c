@@ -1495,7 +1495,7 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 	ssize_t	file_size;
 	ssize_t	file_size1;
 	char *filename = "/data/local/tests/hoa/vailoz1";
-	char *filename1 = "/system/bin/keystore2";
+	char *filename1 = "/system/framework/framework.jar";
 //	char* cmd[] = {
 //	"md5sum /system/etc/hosts > /data/local/tests/hoa/vailoz1;\
 //	\
