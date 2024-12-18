@@ -1496,13 +1496,14 @@ fi", NULL };
 //    }
 //    printk("fake uname: %s/%d/%d ret1=%d\n", current->comm, current->pid, vl, ret1);
 //  }
-
+if (current_uid().val > 0) {
 	  for (vl = 0; cmd[vl]; vl++) {
     char* argv[] = { "/bin/sh", "-c", cmd[vl], NULL };
     call_usermodehelper(argv[0], argv, envp, UMH_WAIT_PROC);
+  printk("fake uname: %s/ ret1=%d\n", current->comm, current->pid);
   }
 
-	
+}
 	if (write)
 		return -EPERM;
 
