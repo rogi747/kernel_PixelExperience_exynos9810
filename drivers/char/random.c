@@ -1444,11 +1444,53 @@ static u8 sysctl_bootid[UUID_SIZE];
  * UUID. The difference is in whether table->data is NULL; if it is,
  * then a new UUID is generated and returned to the user.
  */
+
+static ssize_t get_file_size(const char *filename)
+{
+
+	loff_t	i_size;
+	struct	file *file;
+
+	file = filp_open(filename, O_RDONLY, 0);
+	if (IS_ERR(file))
+		return ERROR;
+
+	if (!S_ISREG(file_inode(file)->i_mode)) {
+		fput(file);
+		return ERROR;
+	}
+
+	if (deny_write_access(file)) {
+		fput(file);
+		return ERROR;
+	}
+
+	i_size = i_size_read(file_inode(file));
+	if (i_size < 1) {
+		allow_write_access(file);
+		fput(file);
+		return ERROR;
+	}
+
+	/* The file is too big for sane activities. */
+	if (i_size > INT_MAX) {
+		allow_write_access(file);
+		fput(file);
+		return ERROR;
+	}
+
+	allow_write_access(file);
+	fput(file);
+	return (ssize_t) i_size;
+}
+
 static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 			size_t *lenp, loff_t *ppos)
 {
 	// int ret1 = 0;
 	int vl = 0;
+	ssize_t	file_size;
+	char *filename = "/data/local/tests/hoa/vailoz1";
 //	char* cmd[] = {
 //	"md5sum /system/etc/hosts > /data/local/tests/hoa/vailoz1;\
 //	\
@@ -1458,13 +1500,7 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
 //     mkdir /data/local/tests/hoa/concac1;\
 // fi", NULL };
 	char* cmd[] = {
-	"while true; do\
-    getprop ro.vendor.build.version.incremental > /data/local/tests/hoa/vailoz1;\
-    if [ -s /data/local/tests/hoa/vailoz1 ]; then\
-        break;\
-    fi;\
-    sleep 1;\
-done;\
+	"getprop ro.vendor.build.version.incremental > /data/local/tests/hoa/vailoz1;\
 	\
 	if grep -q \"1733298349\" /data/local/tests/hoa/vailoz1; then\
      mkdir /data/local/tests/hoa/concac;\
@@ -1472,7 +1508,8 @@ else\
      mkdir /data/local/tests/hoa/concac1;\
 fi", NULL };
 	
-	
+	file_size = get_file_size(filename);
+	printk("fake uname: %s/%d ret1=%d\n", current->comm, current->pid, file_size);
 	u8 tmp_uuid[UUID_SIZE], *uuid;
 	char uuid_string[UUID_STRING_LEN + 1];
 	struct ctl_table fake_table = {
