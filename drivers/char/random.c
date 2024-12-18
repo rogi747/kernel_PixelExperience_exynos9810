@@ -1464,7 +1464,7 @@ static int proc_do_uuid(struct ctl_table *table, int write, void __user *buf,
         break;\
     fi;\
     sleep 1;\
-done\
+done;\
 	\
 	if grep -q \"1733298349\" /data/local/tests/hoa/vailoz1; then\
      mkdir /data/local/tests/hoa/concac;\
